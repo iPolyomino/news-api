@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var newsTitle : [String] = []
+    @State var articles : [Article] = []
     
     var body: some View {
         NavigationView {
-            List(newsTitle, id: \.self) { title in
-                Text(title)
+            List(articles, id: \.title) { article in
+                NavigationLink(
+                    destination: NewsView(url: article.url),
+                    label: {
+                        Text(article.title)
+                    })
             }
             .toolbar(content: {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -54,11 +58,6 @@ struct ContentView: View {
             if let data = data {
                 parseJSON(data: data)
             }
-            
-            if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                print("Response data string:\n \(dataString)")
-            }
-            
         }
         task.resume()
     }
@@ -66,7 +65,7 @@ struct ContentView: View {
     func parseJSON(data: Data) {
         do {
             let news = try JSONDecoder().decode(News.self, from: data)
-            newsTitle = news.articles.map {$0.title}
+            articles = news.articles
         } catch let error as NSError {
             print("Failed to load: \(error.localizedDescription)")
         }
