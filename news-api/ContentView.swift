@@ -73,21 +73,6 @@ struct ContentView: View {
     }
 }
 
-struct Article: Decodable {
-    let title: String
-    let author: String?
-    let description: String?
-    let url: String
-}
-
-struct News : Decodable {
-    let status: String
-    let totalResults: Int
-    let articles: [Article]
-}
-
-
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
