@@ -15,11 +15,21 @@ struct ContentView: View {
             List(newsTitle, id: \.self) { title in
                 Text(title)
             }
+            .toolbar(content: {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        self.fetch()
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                    }
+                }
+            })
+            .navigationTitle("スポーツニュース")
         }.onAppear(perform: fetch)
     }
     
     private func fetch() {
-        let NewsURL = "https://newsapi.org/v2/top-headlines?country=jp&category=sports&q=%E3%82%B5%E3%83%83%E3%82%AB%E3%83%BC&apiKey=\(API_KEY.NEWSAPI_KEY)"
+        let NewsURL = "https://newsapi.org/v2/top-headlines?country=jp&category=sports&apiKey=\(API_KEY.NEWSAPI_KEY)"
 
         let url = URL(string: NewsURL)!
         var request = URLRequest(url: url)
@@ -45,6 +55,10 @@ struct ContentView: View {
                 parseJSON(data: data)
             }
             
+            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                print("Response data string:\n \(dataString)")
+            }
+            
         }
         task.resume()
     }
@@ -61,9 +75,8 @@ struct ContentView: View {
 
 struct Article: Decodable {
     let title: String
-    let author: String
-    let description: String
-    let publishedAt: String
+    let author: String?
+    let description: String?
     let url: String
 }
 
