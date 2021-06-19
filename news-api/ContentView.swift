@@ -12,10 +12,9 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            List(0 ..< newsTitle.count) { i in
-                Text(newsTitle[i])
+            List(newsTitle, id: \.self) { title in
+                Text(title)
             }
-                
         }.onAppear(perform: fetch)
     }
     
