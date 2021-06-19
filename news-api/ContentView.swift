@@ -19,7 +19,7 @@ struct ContentView: View {
     }
     
     private func fetch() {
-        let NewsURL = "https://newsapi.org/v2/top-headlines?country=jp&category=sports&q=%E3%82%B5%E3%83%83%E3%82%AB%E3%83%BC&apiKey=98d6f053dadc4fefbf963df812eebdea"
+        let NewsURL = "https://newsapi.org/v2/top-headlines?country=jp&category=sports&q=%E3%82%B5%E3%83%83%E3%82%AB%E3%83%BC&apiKey=\(API_KEY.NEWSAPI_KEY)"
 
         let url = URL(string: NewsURL)!
         var request = URLRequest(url: url)
